@@ -1,0 +1,115 @@
+server:
+  port: 11039
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: /tmp/tomcat/${spring.application.name}
+spring:
+  application:
+    name: sdas-gateway
+  profiles:
+    default: default
+    active: default
+  main:
+    bannerMode: "off"
+  http:
+     encoding:
+       charset: UTF-8
+       enabled: true
+       force: true
+  servlet:
+     multipart:
+       enabled: true
+       file-size-threshold: 0
+       max-file-size: 100Mb
+       max-request-size: 100Mb
+  cloud:
+    client:
+      ip-address: 127.0.0.1
+  redis:
+    database: 0
+    host: 192.168.10.130
+    port: 6370
+    password: 123456
+    timeout: 5000
+    jedis:
+      pool:
+        max-active: 128
+        max-wait: -1
+        max-idle: 8
+        min-idle: 2
+eureka:
+  instance:
+    #hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    preferIpAddress: true
+    ip-address: ${spring.cloud.client.ip-address}
+    leaseExpirationDurationInSeconds: 40
+    leaseRenewalIntervalInSeconds: 5
+    registryFetchIntervalSeconds: 5
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${sdas.eureka.server.user}:${sdas.eureka.server.password}@${sdas.eureka.server.host}:${sdas.eureka.server.port}/eureka
+zuul:
+  sensitiveHeaders: 
+  addHostHeader: true
+  retryable: true
+  host:
+    maxTotalConnections: 2000
+    maxPerRouteConnections: 20
+  semaphore:
+    max-semaphores: 128
+  routes:
+    fdfs-service:
+      path: /fdfs/**
+      url: http://192.168.10.131
+    sdas-protal:
+      path: /portal/**
+<<<<<<< HEAD
+      url: http://192.168.10.126
+=======
+      url: http://192.168.10.164
+>>>>>>> 6ba64999bfa4b27072f5b8dcb225b39b0dec5bcb
+ribbon:
+  ConnectTimeout: 1000000
+  ReadTimeout: 1000000
+  maxAutoRetries: 2
+  maxAutoRetriesNextServer: 2
+  okToRetryOnAllOperations: true
+hystrix:
+  command:
+    default:
+      fallback: 
+        enabled: true
+      circuitBreaker:
+        enabled: true
+        requestVolumeThreshold: 20
+        sleepWindowInMilliseconds: 5000
+      requestCache:
+        enabled: true
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 400000
+logging:
+  config: classpath:logback.xml
+  
+#======================================#
+#========== Project settings ==========#
+#======================================#
+sdas:
+  eureka:
+    server:
+      host: 127.0.0.1
+      port: 11010
+      user: lixu
+      password: 123456
+  #模拟开关 YES/NO
+  mockenable: NO
+  user-mgnt-service-name: sdas-module-user-mgnt
+  toPortal: false
+  protal-login-url: portal/view/login/login.html

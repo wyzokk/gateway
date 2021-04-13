@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: sdas-gateway
+  cloud:
+    config:
+      enabled: ${sdas.config.enabled}
+      username: ${sdas.config.server.username}
+      password: ${sdas.config.server.password}
+      discovery:
+        enabled: ${sdas.config.enabled}
+        serviceId: sdas-configserver
+      profile: dev
+      label: dev
+      fail-fast: true
+      retry:
+        multiplier: 1.1
+        initial-interval: 1000
+        max-interval: 4000
+        max-attempts: 3
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${sdas.eureka.server.user}:${sdas.eureka.server.password}@${sdas.eureka.server.host}:${sdas.eureka.server.port}/eureka
+#======================================#
+#========== Project settings ==========#
+#======================================#
+sdas:
+  config:
+    server:
+      username: lixuconfig
+      password: 123456
+    enabled: false
+  eureka:
+    server:
+      host: 127.0.0.1
+      port: 11010
+      user: lixu
+      password: 123456

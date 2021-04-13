@@ -1,0 +1,22 @@
+server:
+  port: 80
+spring:
+  cloud:
+    client:
+       ip-address: 192.168.10.180
+  redis:
+    database: 8
+    host: 192.168.10.130
+    password: 123456
+zuul:
+  routes:
+    sdas-protal:
+      path: /**
+      url: http://192.168.10.180:15001
+sdas:
+  eureka:
+    server:
+      host: 192.168.10.180
+      port: 11010
+      user: lixu
+      password: 123456
